@@ -39,7 +39,7 @@ const updateContact = async (req, res) => {
   const response = await mongodb.getDb().db().collection('contacts').replaceOne({ _id: userId }, contact);
   console.log(response);
   if (response.modifiedCount > 0) {
-    res.status(204).json("Update Successful");
+    res.status(204).send();
   } else {
     res.status(500).json(response.error || 'Some error occurred while updating the contact.');
   }
@@ -50,7 +50,7 @@ const deleteContact = async (req, res) => {
   const response = await mongodb.getDb().db().collection('contacts').remove({ _id: userId }, true);
   console.log(response);
   if (response.deletedCount > 0) {
-    res.status(204).json("Record Deleted");
+    res.status(204).send();
   } else {
     res.status(500).json(response.error || 'Some error occurred while deleting the contact.');
   }
