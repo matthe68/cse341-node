@@ -35,17 +35,11 @@ const createNewClient = async (request, response) => {
 const updateContact = async (req, res) => {
   const userId = new ObjectId(req.params.id);
   // be aware of updateOne if you only want to update specific fields
-  const contact = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    favoriteColor: req.body.favoriteColor,
-    birthday: req.body.birthday
-  };
+  const contact = req.body;
   const response = await mongodb.getDb().db().collection('contacts').replaceOne({ _id: userId }, contact);
   console.log(response);
   if (response.modifiedCount > 0) {
-    res.status(204).send();
+    res.status(204).json("Update Successful");
   } else {
     res.status(500).json(response.error || 'Some error occurred while updating the contact.');
   }
@@ -56,7 +50,7 @@ const deleteContact = async (req, res) => {
   const response = await mongodb.getDb().db().collection('contacts').remove({ _id: userId }, true);
   console.log(response);
   if (response.deletedCount > 0) {
-    res.status(204).send();
+    res.status(204).json("Record Deleted");
   } else {
     res.status(500).json(response.error || 'Some error occurred while deleting the contact.');
   }
