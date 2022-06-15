@@ -22,12 +22,11 @@ const createNewClient = async (request, response) => {
   const newUser = request.body;
   console.log("newUser: ", newUser);
   const result = await mongodb.getDb().db().collection('contacts').insertOne(newUser);
-  if (response.acknowledged) {
+  if (result.acknowledged) {
     console.log("result: ", result.insertedId);
     response.setHeader('Content-Type', 'application/json');
     response.status(201).json(result);
   } else {
-    
     response.setHeader('Content-Type', 'application/json');
     response.status(500).json(response.error || "Some error occured while creating the contact.");
   }
