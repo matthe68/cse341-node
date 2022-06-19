@@ -1,4 +1,6 @@
-const { MongoClient } = require('mongodb');
+const dotenv = require('dotenv');
+dotenv.config();
+const MongoClient = require('mongodb').MongoClient;
 
 let _db;
 
@@ -7,8 +9,7 @@ const initDb = (callback) => {
     console.log('Db is already initialized!');
     return callback(null, _db);
   }
-  const client = new MongoClient(process.env.CONNECTION_STRING);
-  client.connect()
+  MongoClient.connect(process.env.CONNECTION_STRING)
     .then((client) => {
       _db = client;
       callback(null, _db);
@@ -27,5 +28,5 @@ const getDb = () => {
 
 module.exports = {
   initDb,
-  getDb,
+  getDb
 };
